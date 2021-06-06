@@ -53,16 +53,9 @@ steps:
         "--install"
       ]
 
-  - name: "gcr.io/products-app-aw/helm:3.2.0"
-    id: HELM_UPGRADE_CHECK
-    env:
-    - 'CLOUDSDK_COMPUTE_REGION=${_CLUSTER_REGION}'
-    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER_NAME}'
+  - name: 'gcr.io/products-app-aw/jmeter:latest'
+    id: JMETER_LOAD_TEST
     args:
-      [
-        "get",
-        "values",
-        "${_HELM_RELEASE_NAME}", 
-        "--namespace", 
-        "${_NAMESPACE}"
-      ]
+    - '-n'
+    - '-t'
+    - 'productsAppHttpReq.jmx'
