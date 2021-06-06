@@ -17,6 +17,25 @@ steps:
     args: ["push", "gcr.io/$PROJECT_ID/${_SERVICE_NAME}"]
 
   - name: "gcr.io/products-app-aw/helm:3.2.0"
+    id: HELM_UPGRADE_DRY_RUN
+    env:
+    - 'CLOUDSDK_COMPUTE_REGION=${_CLUSTER_REGION}'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER_NAME}'
+    args:
+      [
+        "upgrade",
+        "${_HELM_RELEASE_NAME}", 
+        "helm/products-app", 
+        "--namespace", 
+        "${_NAMESPACE}",
+        "--set",
+        "image.tag=${SHORT_SHA}",
+        "--create-namespace",
+        "--install",
+        "--dry-run"
+      ]
+
+  - name: "gcr.io/products-app-aw/helm:3.2.0"
     id: HELM_UPGRADE
     env:
     - 'CLOUDSDK_COMPUTE_REGION=${_CLUSTER_REGION}'
