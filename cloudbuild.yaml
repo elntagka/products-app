@@ -29,7 +29,9 @@ steps:
         "--namespace", 
         "${_NAMESPACE}",
         "--set",
-        "image.tag=${SHORT_SHA}"
+        "image.tag=${SHORT_SHA}",
+        "--create-namespace",
+        "--install"
       ]
 
   - name: "gcr.io/products-app-aw/helm:3.2.0"
