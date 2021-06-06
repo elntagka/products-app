@@ -12,7 +12,7 @@ steps:
     - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER_NAME}'
     args:
       [
-        "install",
+        "upgrade",
         "${_HELM_RELEASE_NAME}", 
         "helm/products-app", 
         "--create-namespace", 
