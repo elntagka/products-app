@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: eu.gcr.io/products-app-aw/products-app
+  repository: gcr.io/products-app-aw/products-app
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
   tag: ""
