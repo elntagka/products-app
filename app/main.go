@@ -32,6 +32,8 @@ func init() {
 func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/api/products", ProductsHandler)
+	r.HandleFunc("/health", HealthHandler)
+
 	http.Handle("/", r)
 
 	srv := &http.Server{
@@ -40,6 +42,11 @@ func main() {
 	}
 
 	log.Fatal(srv.ListenAndServe())
+}
+
+func HealthHandler(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusOK)
+	fmt.Fprintf(w, `OK`)
 }
 
 func ProductsHandler(w http.ResponseWriter, r *http.Request) {
