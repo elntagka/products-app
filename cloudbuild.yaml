@@ -15,9 +15,21 @@ steps:
         "upgrade",
         "${_HELM_RELEASE_NAME}", 
         "helm/products-app", 
-        "--create-namespace", 
         "--namespace", 
         "${_NAMESPACE}",
         "--set",
         "image.tag=${SHORT_SHA}"
+      ]
+
+  - name: "gcr.io/products-app-aw/helm:3.2.0"
+    env:
+    - 'CLOUDSDK_COMPUTE_REGION=${_CLUSTER_REGION}'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER_NAME}'
+    args:
+      [
+        "get",
+        "values"
+        "${_HELM_RELEASE_NAME}", 
+        "--namespace", 
+        "${_NAMESPACE}"
       ]

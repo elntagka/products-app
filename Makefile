@@ -7,6 +7,9 @@ helm-install:
 helm-upgrade:
 	@helm upgrade ${RELEASE_NAME} helm/products-app --namespace ${NAMESPACE}
 
+helm-diff:
+	@helm diff ${RELEASE_NAME} helm/products-app --namespace ${NAMESPACE}
+
 port-forward:
 	@kubectl port-forward service/${RELEASE_NAME}-products-app 8000:8080 -n ${NAMESPACE}
 
