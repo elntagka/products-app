@@ -7,6 +7,9 @@ steps:
     args: ["push", "gcr.io/$PROJECT_ID/${_SERVICE_NAME}"]
 
   - name: "gcr.io/products-app-aw/helm:3.2.0"
+    env:
+    - 'CLOUDSDK_COMPUTE_REGION=${_CLUSTER_REGION}'
+    - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER_NAME}'
     args:
       [
         "install",
