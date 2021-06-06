@@ -31,7 +31,7 @@ steps:
     args:
       [
         "get",
-        "values"
+        "values",
         "${_HELM_RELEASE_NAME}", 
         "--namespace", 
         "${_NAMESPACE}"
