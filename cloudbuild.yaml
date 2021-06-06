@@ -1,15 +1,23 @@
 steps:
   - name: gcr.io/cloud-builders/go
+    id: UNIT_TESTS
+    entrypoint: sh
     args:
-      ["build", "-t", "gcr.io/$PROJECT_ID/${_SERVICE_NAME}:${SHORT_SHA}", "app/"]
+      - '-c'
+      - |
+        cd app && go test ./... -v
+
   - name: gcr.io/cloud-builders/docker
+    id: DOCKER_BUILD
     args:
       ["build", "-t", "gcr.io/$PROJECT_ID/${_SERVICE_NAME}:${SHORT_SHA}", "app/"]
 
   - name: "gcr.io/cloud-builders/docker"
+    id: DOCKER_PUSH
     args: ["push", "gcr.io/$PROJECT_ID/${_SERVICE_NAME}"]
 
   - name: "gcr.io/products-app-aw/helm:3.2.0"
+    id: HELM_UPGRADE
     env:
     - 'CLOUDSDK_COMPUTE_REGION=${_CLUSTER_REGION}'
     - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER_NAME}'
@@ -25,6 +33,7 @@ steps:
       ]
 
   - name: "gcr.io/products-app-aw/helm:3.2.0"
+    id: HELM_UPGRADE_CHECK
     env:
     - 'CLOUDSDK_COMPUTE_REGION=${_CLUSTER_REGION}'
     - 'CLOUDSDK_CONTAINER_CLUSTER=${_CLUSTER_NAME}'
