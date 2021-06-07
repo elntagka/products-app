@@ -6,4 +6,6 @@ Assumptions:
 3. gcp project exists
 4. docker repo exists 
 5. GCP services required are enabled
-6. the terraform SA and the cloud build SA have admin permissions
+6. the terraform SA and the cloud build SA have admin permission
+7. Used helm community builder
+8. Updated and used forked jmeter comunity builder. Changes here: https://github.com/elntagka/cloud-builders-community/tree/master/jmeter
