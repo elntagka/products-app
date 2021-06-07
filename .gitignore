@@ -29,3 +29,6 @@ override.tf.json
 # example: *tfplan*
 temp/*
 */creds/*
+*kubeconfig*
+*tf.out*
+*.terraform.lock.hcl*
