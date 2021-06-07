@@ -3,6 +3,7 @@ Hi there! Thanks for the opportunity to work on this project I really enjoyed it
 Please see below how to deploy/test it.
 
 ## Prerequisites/Assumptions:
+- It wasn't clear how the url "https://reqres.in/api/products/" should be utilised, so in this project I have created a service that accepts requests in the path `/api/products/` and returns some sample data. In addition to that it supports pagination and will return a subset of the test data when a specific page is requested.
 - Terraform service account exists and has the required permissions. For this example I assigned the role `Owner` and the json file with the account credentials is available under the directory `terraform/creds/key.json`
 - Terraform remote state is configured using a a bucket on GCP
 - GCP account exists
@@ -43,6 +44,31 @@ The steps to deploy the `products-app` service are outlined in the `cloudbuild.y
 - A Helm upgrade with option to install if a release by this name doesn't already exist
 - JMeter load tests to prove the autoscaling configuration
 
-*Note: In addition to this pipeline, there's also a Makefile with the helm commands that I used for local testing and I'm leaving here as reference or for future work*
+*Notes:* 
+- There's a limitation currently on the JMeter step due to time constaints on this work. The public IP assigned to the ingress should be updated in the JMeter step in `cloudbuild.yaml` in the parameter `-JDomain=`. So the limitation of the current example is that user the first time the pipeline runs should deploy the Helm release, get the IP address of the ingress using the command below, update the pipeline `cloudbuild.yaml` and trigger a new build for JMeter load tests to run against the correct IP.
+    ```
+    kubectl get ingress -n products-app
+    ```
+- In addition to this pipeline, there's also a Makefile with the helm commands that I used for local testing and I'm leaving here as reference or for future work*
 
 ### Testing and Validating the solution
+#### Testing the products-app
+In addition to the unit tests that run as part of the pipeline, once the above deployments are completed and the ingress IP is available, the application can be tested by simply running curl commands like the below:
+```
+export IP=34.117.45.81
+
+curl "http://${IP}/api/products?page=5" -i
+
+curl "http://${IP}/api/products?page=five" -i
+
+curl "http://${IP}/api/products?page=100" -i
+
+curl "http://${IP}/api/products?animal=5" -i
+
+curl "http://${IP}/api/products" -i
+```
+*Notes:* 
+- The IP given above is the one my deployment is currently available on and I will leave it running until the 11/06/2021 if required for validation
+
+#### Validating the autoscaling 
+The jmx file provided has a test configured to prove the scaling configuration that this cluster was tested with. To validate this while the JMeter step of the pipeline runs you can monitor the workload on the GCP console or via using kubectl. For reference, during my tests the deployment scaled from 1 pod to 19.
