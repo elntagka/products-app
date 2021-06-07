@@ -59,4 +59,4 @@ steps:
     - '-n'
     - '-t'
     - 'productsAppHttpReq.jmx'
-    - '-Jdomain=34.117.45.81'
+    - '-JDomain=34.117.45.81'
