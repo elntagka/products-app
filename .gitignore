@@ -32,3 +32,4 @@ temp/*
 *kubeconfig*
 *tf.out*
 *.terraform.lock.hcl*
+terraform/kubeconfig-dev
