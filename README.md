@@ -1,9 +1,8 @@
 # products-app
-Hi there! Thanks for the opportunity to work on this project I really enjoyed it!
-Please see below how to deploy/test it.
+This project creates and deploys a Go service that accepts requests in the path `/api/products/` and returns some sample data. In addition to that it supports pagination and will return a subset of the test data when a specific page is requested.
+This project is deployed on a Kubernetes cluster on GCP using Terraform, Helm and the Google Cloud Build service. Below there are more information about how to deploy and test this project.
 
 ## Prerequisites/Assumptions:
-- It wasn't clear how the url "https://reqres.in/api/products/" should be utilised, so in this project I have created a service that accepts requests in the path `/api/products/` and returns some sample data. In addition to that it supports pagination and will return a subset of the test data when a specific page is requested.
 - Terraform service account exists and has the required permissions. For this example I assigned the role `Owner` and the json file with the account credentials is available under the directory `terraform/creds/key.json`
 - Terraform remote state is configured using a a bucket on GCP
 - GCP account exists
@@ -55,8 +54,6 @@ The steps to deploy the `products-app` service are outlined in the `cloudbuild.y
 #### Testing the products-app
 In addition to the unit tests that run as part of the pipeline, once the above deployments are completed and the ingress IP is available, the application can be tested by simply running curl commands like the below:
 ```
-export IP=34.117.45.81
-
 curl "http://${IP}/api/products?page=5" -i
 
 curl "http://${IP}/api/products?page=five" -i
@@ -67,8 +64,6 @@ curl "http://${IP}/api/products?animal=5" -i
 
 curl "http://${IP}/api/products" -i
 ```
-*Notes:* 
-- The IP given above is the one my deployment is currently available on and I will leave it running until the 11/06/2021 if required for validation
 
 #### Validating the autoscaling 
 The jmx file provided has a test configured to prove the scaling configuration that this cluster was tested with. To validate this while the JMeter step of the pipeline runs you can monitor the workload on the GCP console or via using kubectl. For reference, during my tests the deployment scaled from 1 pod to 19.

@@ -33,3 +33,4 @@ temp/*
 *tf.out*
 *.terraform.lock.hcl*
 terraform/kubeconfig-dev
+*.DS_Store*
